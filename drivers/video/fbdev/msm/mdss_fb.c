@@ -103,6 +103,9 @@ static struct msm_fb_data_type *mfd_data;
 bool backlight_dimmer = false;
 module_param(backlight_dimmer, bool, 0644);
 
+int backlight_min = 0;
+module_param(backlight_min, int, 0644);
+
 static u32 mdss_fb_pseudo_palette[16] = {
 	0x00000000, 0xffffffff, 0xffffffff, 0xffffffff,
 	0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
@@ -335,6 +338,10 @@ static void mdss_fb_set_bl_brightness(struct led_classdev *led_cdev,
 
 	if (value > mfd->panel_info->brightness_max)
 		value = mfd->panel_info->brightness_max;
+
+	// Boeffla: apply min limits for LCD backlight (0 is exception for display off)
+	if (value != 0 && value < backlight_min)
+		value = backlight_min;
 
 	if (backlight_dimmer) {
 		MDSS_BRIGHT_TO_BL_DIM(bl_lvl, value);
