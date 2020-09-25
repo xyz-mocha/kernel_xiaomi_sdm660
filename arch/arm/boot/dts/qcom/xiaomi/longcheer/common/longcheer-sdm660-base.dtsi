@@ -16,6 +16,7 @@
 #include "longcheer-sdm660-mtp.dtsi"
 #include "longcheer-sdm660-pinctrl.dtsi"
 #include "longcheer-sdm660-ramoops.dtsi"
+#include "../../../sdm660-thermal.dtsi"
 
 /* sdm660.dtsi common diff */
 &soc {
