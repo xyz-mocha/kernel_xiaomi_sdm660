@@ -418,6 +418,7 @@ struct smb_charger {
 	bool			use_extcon;
 	bool			otg_present;
 	bool			fcc_stepper_mode;
+	bool			in_chg_lock;
 #ifdef CONFIG_MACH_LONGCHEER
 #ifdef THERMAL_CONFIG_FB
 	struct notifier_block	notifier;
