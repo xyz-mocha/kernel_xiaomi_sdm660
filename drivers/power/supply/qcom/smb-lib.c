@@ -2571,25 +2571,6 @@ int smblib_set_prop_system_temp_level(struct smb_charger *chg,
 #endif
 
 	chg->system_temp_level = val->intval;
-	/* disable parallel charge in case of system temp level */
-#ifdef CONFIG_MACH_LONGCHEER
-	if ((lct_backlight_off == 0) && (chg->system_temp_level <= 1))
-		vote(chg->pl_disable_votable, THERMAL_DAEMON_VOTER,false,0);
-#if defined(CONFIG_MACH_XIAOMI_WHYRED)
-	else if ((hwc_check_india == 0) && (chg->system_temp_level <= 2))
-		vote(chg->pl_disable_votable, THERMAL_DAEMON_VOTER,false,0);
-#elif defined(CONFIG_MACH_XIAOMI_TULIP)
-	else if (chg->system_temp_level <= 2)
-		vote(chg->pl_disable_votable, THERMAL_DAEMON_VOTER,false,0);
-#endif
-	else
-#endif
-	vote(chg->pl_disable_votable, THERMAL_DAEMON_VOTER,
-#ifdef CONFIG_MACH_MI
-			(chg->system_temp_level > 8) ? true : false, 0);
-#else
-			chg->system_temp_level ? true : false, 0);
-#endif
 
 #ifdef CONFIG_MACH_MI
 	if (chg->system_temp_level >= (chg->thermal_levels - 1))
